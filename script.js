@@ -1,6 +1,6 @@
 let particles = [];
-let textParticles = [];
 let font;
+let textPoints = [];
 
 function preload() {
     font = loadFont('https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf');
@@ -11,19 +11,17 @@ function setup() {
     noStroke();
 
     let txt = "Te iubesc";
-    let txtSize = 100;
+    let txtSize = 80;
     let txtX = width / 2 - 180;
     let txtY = height / 2 + 30;
 
     // Creăm punctele pentru text
-    textParticles = font.textToPoints(txt, txtX, txtY, txtSize, { sampleFactor: 0.25 });
+    textPoints = font.textToPoints(txt, txtX, txtY, txtSize, { sampleFactor: 0.3 });
 
-    // Creăm particulele inimii
-    for (let i = 0; i < 2000; i++) {
-        let angle = random(TWO_PI);
-        let radius = random(50, 200);
-        let x = width / 2 + radius * cos(angle);
-        let y = height / 2 + radius * sin(angle) * 0.8;
+    // Generăm particulele pentru inimă
+    for (let i = 0; i < 3000; i++) {
+        let x = random(width / 2 - 200, width / 2 + 200);
+        let y = random(height / 2 - 200, height / 2 + 200);
 
         if (isInHeart(x, y) && !isInText(x, y)) {
             particles.push(new Particle(x, y));
@@ -41,14 +39,14 @@ function draw() {
 
 // Funcția care verifică dacă un punct este în inimă
 function isInHeart(x, y) {
-    let nx = (x - width / 2) / 100;
-    let ny = (y - height / 2) / 100;
-    return (nx * nx + ny * ny - 1) ** 3 - nx * nx * ny * ny * ny < 0;
+    let nx = (x - width / 2) / 16;
+    let ny = (y - height / 2) / 16;
+    return pow(nx, 2) + pow(ny - sqrt(abs(nx)), 2) - 1 < 0;
 }
 
 // Funcția care verifică dacă un punct este în zona textului
 function isInText(x, y) {
-    for (let pt of textParticles) {
+    for (let pt of textPoints) {
         if (dist(x, y, pt.x, pt.y) < 10) {
             return true;
         }
