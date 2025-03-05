@@ -1,29 +1,15 @@
 let particles = [];
-let font;
-let textPoints = [];
-
-function preload() {
-    font = loadFont('https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf');
-}
 
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
 
-    let txt = "Te iubesc";
-    let txtSize = 80;
-    let txtX = width / 2 - 180;
-    let txtY = height / 2 + 30;
-
-    // Creăm punctele pentru text
-    textPoints = font.textToPoints(txt, txtX, txtY, txtSize, { sampleFactor: 0.3 });
-
     // Generăm particulele pentru inimă
-    for (let i = 0; i < 3000; i++) {
+    for (let i = 0; i < 2000; i++) {
         let x = random(width / 2 - 200, width / 2 + 200);
         let y = random(height / 2 - 200, height / 2 + 200);
 
-        if (isInHeart(x, y) && !isInText(x, y)) {
+        if (isInHeart(x, y)) {
             particles.push(new Particle(x, y));
         }
     }
@@ -44,16 +30,6 @@ function isInHeart(x, y) {
     return pow(nx, 2) + pow(ny - sqrt(abs(nx)), 2) - 1 < 0;
 }
 
-// Funcția care verifică dacă un punct este în zona textului
-function isInText(x, y) {
-    for (let pt of textPoints) {
-        if (dist(x, y, pt.x, pt.y) < 10) {
-            return true;
-        }
-    }
-    return false;
-}
-
 // Clasa pentru particule
 class Particle {
     constructor(x, y) {
@@ -69,25 +45,4 @@ class Particle {
         let d = dist(mouseX, mouseY, this.x, this.y);
         if (d < 50) {
             let angle = atan2(this.y - mouseY, this.x - mouseX);
-            this.vx = cos(angle) * 3;
-            this.vy = sin(angle) * 3;
-        } else {
-            this.vx *= 0.9;
-            this.vy *= 0.9;
-            this.x += (this.origX - this.x) * 0.05;
-            this.y += (this.origY - this.y) * 0.05;
-        }
-
-        this.x += this.vx;
-        this.y += this.vy;
-    }
-
-    show() {
-        fill(255, 0, 0);
-        ellipse(this.x, this.y, 4);
-    }
-}
-
-function windowResized() {
-    resizeCanvas(windowWidth, windowHeight);
-}
+            this.vx = 
