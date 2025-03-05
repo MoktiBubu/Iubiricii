@@ -7,22 +7,21 @@ function setup() {
     let centerX = width / 2;
     let centerY = height / 2;
     let scaleFactor = 10;
+    
+    // Dimensiunea maximită a inimii
+    let radius = 150;
 
-    let radius = 150; // Dimensiunea zonei pentru umplerea inimii
-
-    // Parcurgem toată zona care poate conține inima
+    // Parcurgem o zonă destul de mare pentru a umple inima
     for (let x = centerX - radius; x < centerX + radius; x++) {
         for (let y = centerY - radius; y < centerY + radius; y++) {
-            // Calculăm ecuațiile pentru forma inimii
+            // Verificăm dacă punctul (x, y) este în interiorul formei inimii
             let t = atan2(y - centerY, x - centerX);
-            let distHeart = 16 * pow(sin(t), 3);
-            let yHeart = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
+            let distHeart = 16 * pow(sin(t), 3); // Forma în X
+            let yHeart = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t); // Forma în Y
             
-            // Verificăm dacă punctul (x, y) se află în interiorul inimii
-            let distance = dist(centerX + distHeart, centerY - yHeart, x, y);
-
-            if (distance < scaleFactor) {
-                particles.push(new Particle(x, y));
+            // Verificăm dacă punctul se află în interiorul formei inimii
+            if (pow(x - centerX - distHeart, 2) + pow(y - centerY + yHeart, 2) < pow(scaleFactor, 2)) {
+                particles.push(new Particle(x, y)); // Adăugăm particula
             }
         }
     }
