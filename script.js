@@ -1,6 +1,6 @@
 let particles = [];
+let textParticles = [];
 let font;
-let textPoints = [];
 
 function preload() {
     font = loadFont('https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf');
@@ -9,19 +9,19 @@ function preload() {
 function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
-    
+
     let txt = "Te iubesc";
     let txtSize = 100;
     let txtX = width / 2 - 180;
     let txtY = height / 2 + 30;
 
-    // Obținem punctele textului
-    textPoints = font.textToPoints(txt, txtX, txtY, txtSize, { sampleFactor: 0.2 });
+    // Creăm punctele pentru text
+    textParticles = font.textToPoints(txt, txtX, txtY, txtSize, { sampleFactor: 0.25 });
 
-    // Generăm particulele inimii
-    for (let i = 0; i < 1000; i++) {
+    // Creăm particulele inimii
+    for (let i = 0; i < 2000; i++) {
         let angle = random(TWO_PI);
-        let radius = random(0, 200);
+        let radius = random(50, 200);
         let x = width / 2 + radius * cos(angle);
         let y = height / 2 + radius * sin(angle) * 0.8;
 
@@ -48,7 +48,7 @@ function isInHeart(x, y) {
 
 // Funcția care verifică dacă un punct este în zona textului
 function isInText(x, y) {
-    for (let pt of textPoints) {
+    for (let pt of textParticles) {
         if (dist(x, y, pt.x, pt.y) < 10) {
             return true;
         }
@@ -61,8 +61,8 @@ class Particle {
     constructor(x, y) {
         this.origX = x;
         this.origY = y;
-        this.x = x + random(-2, 2);
-        this.y = y + random(-2, 2);
+        this.x = x;
+        this.y = y;
         this.vx = 0;
         this.vy = 0;
     }
