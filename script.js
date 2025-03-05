@@ -11,6 +11,7 @@ function setup() {
     // Generăm particule conform ecuației unei inimi
     for (let i = 0; i < 2500; i++) {
         let t = random(TWO_PI);
+        // Ecuația pentru o formă de inimă
         let x = 16 * pow(sin(t), 3);
         let y = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
 
