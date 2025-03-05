@@ -25,6 +25,7 @@
             let centerY = height / 2;
             let scaleFactor = 10;
 
+            // Generăm particulele pe forma inimii
             for (let i = 0; i < 10000; i++) {
                 let t = random(TWO_PI);
                 let r = sqrt(random(0, 1)); 
@@ -40,10 +41,27 @@
 
         function draw() {
             background(0);
+
+            // Desenăm particulele
             for (let p of particles) {
                 p.update();
                 p.show();
             }
+
+            // Creăm un "gol" în mijlocul inimii pentru a plasa textul
+            drawHeartText();
+        }
+
+        // Funcția care desenează "Te iubesc" în mijlocul inimii
+        function drawHeartText() {
+            fill(0);  // Fundalul "gol" pentru text
+            textAlign(CENTER, CENTER);
+            textSize(50);
+            textFont('Arial');
+            noStroke();
+
+            // Desenăm textul în mijlocul inimii
+            text('Te iubesc', width / 2, height / 2);
         }
 
         class Particle {
@@ -63,8 +81,8 @@
                     this.vx = cos(angle) * 2;
                     this.vy = sin(angle) * 2;
                 } else {
-                    this.vx = 0.9;
-                    this.vy = 0.9;
+                    this.vx *= 0.9;
+                    this.vy *= 0.9;
                     this.x += (this.origX - this.x) * 0.05;
                     this.y += (this.origY - this.y) * 0.05;
                 }
