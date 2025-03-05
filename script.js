@@ -1,8 +1,8 @@
 let particles = [];
-let textMask = [];
 let font;
+let textMask = [];
 let heartSize = 15;
-let particleDensity = 0.3; // Controlează câte particule sunt generate
+let particleDensity = 8; // Controlează câte particule sunt create
 
 function preload() {
     font = loadFont('https://cdnjs.cloudflare.com/ajax/libs/topcoat/0.8.0/font/SourceCodePro-Bold.otf');
@@ -12,21 +12,21 @@ function setup() {
     createCanvas(windowWidth, windowHeight);
     noStroke();
 
-    // Generăm textul "Te iubesc" sub formă de puncte
+    // Generăm punctele textului "Te iubesc"
     let txt = "Te iubesc";
     let txtSize = 80;
     let txtBounds = font.textBounds(txt, 0, 0, txtSize);
     let txtX = -txtBounds.w / 2;
     let txtY = txtBounds.h / 2;
-    
+
     textMask = font.textToPoints(txt, txtX, txtY, txtSize, { sampleFactor: 0.3 });
 
     // Generăm particulele pentru inimă
-    for (let x = -16 * heartSize; x < 16 * heartSize; x += heartSize * particleDensity) {
-        for (let y = -13 * heartSize; y < 13 * heartSize; y += heartSize * particleDensity) {
+    for (let x = -16 * heartSize; x < 16 * heartSize; x += particleDensity) {
+        for (let y = -13 * heartSize; y < 13 * heartSize; y += particleDensity) {
             let heartFormula = pow(x / heartSize, 2) + pow(y / heartSize - sqrt(abs(x / heartSize)), 2) - 1;
-            
-            if (heartFormula < 0.3) {
+
+            if (heartFormula < 0) {
                 let inText = false;
 
                 // Verificăm dacă particula e în zona textului și o eliminăm
@@ -92,5 +92,3 @@ class Particle {
 function windowResized() {
     resizeCanvas(windowWidth, windowHeight);
 }
-
-
