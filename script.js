@@ -8,18 +8,19 @@ function setup() {
     let centerY = height / 2;
     let scaleFactor = 10;
 
-    // Generăm particule pentru a umple inima
-    let radius = 100; // Dimensiunea minimă a zonei în jurul inimii
+    let radius = 150; // Dimensiunea zonei pentru umplerea inimii
 
-    // Parcurgem zona din jurul inimii pentru a plasa particule
+    // Parcurgem toată zona care poate conține inima
     for (let x = centerX - radius; x < centerX + radius; x++) {
         for (let y = centerY - radius; y < centerY + radius; y++) {
-            // Verificăm dacă punctul (x, y) este în interiorul formei inimii
+            // Calculăm ecuațiile pentru forma inimii
             let t = atan2(y - centerY, x - centerX);
             let distHeart = 16 * pow(sin(t), 3);
             let yHeart = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
             
+            // Verificăm dacă punctul (x, y) se află în interiorul inimii
             let distance = dist(centerX + distHeart, centerY - yHeart, x, y);
+
             if (distance < scaleFactor) {
                 particles.push(new Particle(x, y));
             }
