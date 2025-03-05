@@ -8,9 +8,8 @@ function setup() {
     let centerY = height / 2;
     let scaleFactor = 10;
 
-    // Generăm particule conform ecuației unei inimi
-    for (let i = 0; i < 2500; i++) {
-        let t = random(TWO_PI);
+    // Generăm particule pentru a umple inima
+    for (let t = 0; t < TWO_PI; t += 0.01) {
         // Ecuația pentru o formă de inimă
         let x = 16 * pow(sin(t), 3);
         let y = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
@@ -18,7 +17,19 @@ function setup() {
         x = centerX + x * scaleFactor;
         y = centerY - y * scaleFactor;
 
-        particles.push(new Particle(x, y));
+        // Vom adăuga particule pe toată zona formei de inimă
+        for (let r = 0; r < scaleFactor; r++) {
+            for (let angle = 0; angle < TWO_PI; angle += 0.02) {
+                let offsetX = r * cos(angle);
+                let offsetY = r * sin(angle);
+
+                // Dacă punctul (x + offsetX, y + offsetY) se află în interiorul formei de inimă
+                let distance = dist(centerX, centerY, x + offsetX, y + offsetY);
+                if (distance < scaleFactor) {
+                    particles.push(new Particle(x + offsetX, y + offsetY));
+                }
+            }
+        }
     }
 }
 
