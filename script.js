@@ -9,20 +9,21 @@ function setup() {
     let scaleFactor = 10;
 
     // Generăm particule pentru a umple inima
-    for (let i = 0; i < 2500; i++) {
-        // Aleatoriu între -1 și 1 pentru a obține puncte în interiorul inimii
-        let t = random(TWO_PI);
+    let radius = 100; // Dimensiunea minimă a zonei în jurul inimii
 
-        // Ecuația pentru o formă de inimă
-        let x = 16 * pow(sin(t), 3);
-        let y = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
-
-        // Scalăm valorile x și y pentru a le adapta la dimensiunea ferestrei
-        x = centerX + x * scaleFactor;
-        y = centerY - y * scaleFactor;
-
-        // Adăugăm particula
-        particles.push(new Particle(x, y));
+    // Parcurgem zona din jurul inimii pentru a plasa particule
+    for (let x = centerX - radius; x < centerX + radius; x++) {
+        for (let y = centerY - radius; y < centerY + radius; y++) {
+            // Verificăm dacă punctul (x, y) este în interiorul formei inimii
+            let t = atan2(y - centerY, x - centerX);
+            let distHeart = 16 * pow(sin(t), 3);
+            let yHeart = 13 * cos(t) - 5 * cos(2 * t) - 2 * cos(3 * t) - cos(4 * t);
+            
+            let distance = dist(centerX + distHeart, centerY - yHeart, x, y);
+            if (distance < scaleFactor) {
+                particles.push(new Particle(x, y));
+            }
+        }
     }
 }
 
